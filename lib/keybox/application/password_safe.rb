@@ -384,27 +384,36 @@ module Keybox
                     matches.each_with_index do |match,i|
                         hsay "#{sprintf("%3d",i + 1)}. #{match.title}", :header
                         max_name_length = match.max_field_length + 1
-                        match.each do |name,value|
-                            next if name == "title"
-                            next if value.length == 0
 
+                        match_shown = match.reject do |name,value|
+                            name == "title" or value.length == 0
+                        end
+
+                        match_private, match_public = match_shown.partition do |name,value|
+                            match.private_field?(name)
+                        end
+
+                        match_public.each do |name,value|
+                            name_out = name.rjust(max_name_length)
+                            @highline.say("<%= color(%Q{#{name_out}}, :name) %> <%= color(':',:separator) %> ")
+                            hsay value, :value
+                        end
+
+                        match_private.each do |name,value|
                             name_out = name.rjust(max_name_length)
                             @highline.say("<%= color(%Q{#{name_out}}, :name) %> <%= color(':',:separator) %> ")
 
-                            if match.private_field?(name) then
-                                @highline.ask(
-                                   "<%= color(%Q{#{value}},:private) %> <%= color('(press any key).', :prompt) %> "
-                                ) do |q|
-                                    q.overwrite = true
-                                    q.echo      = false
-                                    q.character = true
-                                end
-                                
-                                @highline.say("<%= color(%Q{#{name_out}}, :name) %> <%= color(':',:separator) %> <%= color('#{'*' * 20}', :private) %>")
-                            else
-                                hsay value, :value
+                            @highline.ask(
+                               "<%= color(%Q{#{value}},:private) %> <%= color('(press any key).', :prompt) %> "
+                            ) do |q|
+                                q.overwrite = true
+                                q.echo      = false
+                                q.character = true
                             end
+
+                            @highline.say("<%= color(%Q{#{name_out}}, :name) %> <%= color(':',:separator) %> <%= color('#{'*' * 20}', :private) %>")
                         end
+
                         @stdout.puts
                     end
                 else

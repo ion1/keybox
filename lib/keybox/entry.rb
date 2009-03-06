@@ -10,6 +10,8 @@ module Keybox
     # when you would like to link an entry's +password+ field to be
     # generated based upon the master password of the container.
     class AccountEntry < Keybox::Storage::Record
+        include Enumerable
+
         class << self
             def default_fields
                 %w(title username additional_info)
