@@ -83,6 +83,8 @@ applications.
 * For a gem install keybox depends upon HighLine[http://highline.rubyforge.org] >= 1.2.6.
 * For a source install keybox ships with HighLine 1.2.6
 
+If xsel is available, keybox uses it to put passwords directly to the clipboard.
+
 === For development:
 * rake >= 0.7.1
 * rcov >= 0.7.0.1
