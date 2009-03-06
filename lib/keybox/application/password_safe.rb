@@ -237,9 +237,9 @@ module Keybox
                 password = nil
                 if not File.exists?(@options.db_file) then
                     hsay 'Creating initial database.', :information
-                    password  = prompt("Initial Password for (#{@options.db_file})", :echo => "*", :validate => true)
+                    password  = prompt("Initial Password for (#{@options.db_file})", :echo => false, :validate => true)
                 else
-                    password  = prompt("Password for (#{@options.db_file})", :echo => "*")
+                    password  = prompt("Password for (#{@options.db_file})", :echo => false)
                 end
                 @db = Keybox::Storage::Container.new(password,@options.db_file)
             end
