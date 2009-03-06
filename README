@@ -115,6 +115,11 @@ kpg is based on the functionality of 'apg' or Automated Password Generator.
 Automated Password Generator was was originally developed by Adel I.
 Mirzazhanov and can be found at http://www.adel.nursat.kz/apg/
 
+The following people have contributed patches to keybox:
+
+* Johan Kiviniemi
+* Saku Ytti
+
 == LICENSE:
 
 (The MIT License)
