@@ -393,15 +393,18 @@ module Keybox
                             match.private_field?(name)
                         end
 
-                        match_public.each do |name,value|
+                        say_name = lambda do |name|
                             name_out = name.rjust(max_name_length)
                             @highline.say("<%= color(%Q{#{name_out}}, :name) %> <%= color(':',:separator) %> ")
+                        end
+
+                        match_public.each do |name,value|
+                            say_name.call(name)
                             hsay value, :value
                         end
 
                         match_private.each do |name,value|
-                            name_out = name.rjust(max_name_length)
-                            @highline.say("<%= color(%Q{#{name_out}}, :name) %> <%= color(':',:separator) %> ")
+                            say_name.call(name)
 
                             @highline.ask(
                                "<%= color(%Q{#{value}},:private) %> <%= color('(press any key).', :prompt) %> "
@@ -411,7 +414,8 @@ module Keybox
                                 q.character = true
                             end
 
-                            @highline.say("<%= color(%Q{#{name_out}}, :name) %> <%= color(':',:separator) %> <%= color('#{'*' * 20}', :private) %>")
+                            say_name.call(name)
+                            @highline.say("<%= color('#{'*' * 20}', :private) %>")
                         end
 
                         @stdout.puts
