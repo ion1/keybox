@@ -3,6 +3,7 @@
 
 * Hide the length of master password
 * show: List public fields first
+* show: If xsel is available, put password directly to clipboard
 
 === Version 1.2.1 - 2007-09-26
 

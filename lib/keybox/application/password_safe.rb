@@ -1,5 +1,6 @@
 require 'keybox/storage'
 require 'keybox/application/base'
+require 'keybox/password_output'
 require 'optparse'
 require 'ostruct'
 require 'uri'
@@ -404,18 +405,7 @@ module Keybox
                         end
 
                         match_private.each do |name,value|
-                            say_name.call(name)
-
-                            @highline.ask(
-                               "<%= color(%Q{#{value}},:private) %> <%= color('(press any key).', :prompt) %> "
-                            ) do |q|
-                                q.overwrite = true
-                                q.echo      = false
-                                q.character = true
-                            end
-
-                            say_name.call(name)
-                            @highline.say("<%= color('#{'*' * 20}', :private) %>")
+                            PasswordOutput.output(@highline, lambda { say_name.call(name) }, value)
                         end
 
                         @stdout.puts
